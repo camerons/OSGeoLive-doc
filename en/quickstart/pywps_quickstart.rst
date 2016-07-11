@@ -1,5 +1,5 @@
 :Author: OSGeo-Live
-:Author: Jachym Cepicky, Tom Kralidis
+:Author: Jachym Cepicky, Tom Kralidis, Luís de Sousa
 :Reviewer: Cameron Shorter
 :Version: osgeo-live10.0
 :License: Creative Commons Attribution
@@ -18,21 +18,11 @@
   1024x768 screen shots, although if you keep screen shot small, you might
   find they are easier to read, (and still fit) if you keep at 70%.
 
-.. Cameron Comment:
-  I've changed logo scale to 100%
 .. image:: ../../images/project_logos/logo-pywps.png
   :scale: 100 %
   :alt: project logo
   :align: right
   :target: http://pywps.org
-
-.. Cameron Comment:
-  Incubation logo is not included in Quickstarts (just Project Overviews)
-  .. image:: ../../images/logos/OSGeo_incubation.png
-  :scale: 100
-  :alt: OSGeo Project in Incubation
-  :align: right
-  :target: http://www.osgeo.org
 
 ****************
 PyWPS Quickstart
@@ -43,14 +33,11 @@ in `Python <http://python.org>`_.
 
 PyWPS is installed by default on OSGeo-Live.  This Quickstart describes how to:
 
-.. Cameron Comment: installation not covered anymore. Following line can be removed.
-  * perform a fresh installation of PyWPS
-* test PyWPS installation
-* basic configuration of PyWPS instance
+* test a PyWPS installation
+* configure the basics of a PyWPS instance
 * create and deploy process in PyWPS
 * perform `GetCapabilities`, `DescribeProcess` and `Execute` operations
 
-.. Cameron Comment: Added a TOC
 .. contents:: Contents
 
 Tester Application
@@ -66,14 +53,12 @@ To run the PyWPS tester, use the PyWPS launcher from the Web Services group, or 
 .. Cameron Comment: Assume students are not very computer literate. So I suggest
   call GetCapabilities from the web page rather than using wget from command
   line. 
-From Application menu, start Terminal application and test `GetCapabilities`
-operation::
+  
+To test the `GetCapabilities` operation open you favourite internet browser and navigate to the following address::
 
-    $ wget -O - "http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=GetCapabilities"
+    http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=GetCapabilities
 
-    <wps:Capabilities service="WPS"
-    ...
-    </wps:Capabilities>
+The result will be a GetCapabilites response documet, like the one in the image below::
 
 .. Cameron Comment: The size (width x height of this image is too big).
   Suggest: 1. Make browser window small before taking screen shot from it.
@@ -89,74 +74,57 @@ operation::
   call it, or what you will do with the result.
   And the result is coming back as XML, which is always daunting for
   computer illiterate people.
-  Is it possible to access pywps from a GUI application? Ideally a browser
+  
+.. Luís: Describing what WPS is is out of the scope of this document.
+  
+.. Cameron Comment: Is it possible to access pywps from a GUI application? Ideally a browser
   based command console where you can construct queries and see results -
   similar to GeoServer, would be great. Alternatively, can you use QGIS or
   similar as a client?
   (This comment is applicable for rest of document too)
-You should see full WPS Capabilites response document. You can also see similar
-response using `browser <http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=GetCapabilities>`_. This document describes the functionality provided by this WPS.
+  
+.. Luís: The only full featured WPS client that I am awere of is iGUESS: https://github.com/ERIN-LIST/iguess
+  
+This document describes the functionality provided by this WPS instance. After some metadata about this instance, the response documents lists all the processes available. The `DescribeProcess` operation can be used to know the details of each of these processes 
 
 Lets select a process from the list, for example `ultimatequestionprocess`, and
-display it's description by calling `DescribeProcess` operation.::
+display it's description by calling the `DescribeProcess` operation. Again in the browser, navigate to this address::
 
-.. Cameron Comment: Again, do this from a browser.
+    http://localhost/pywps/wps.py?service=wps&version=1.0.0&request=DescribeProcess&identifier=ultimatequestionprocess
 
-    $ wget -O - "http://localhost/pywps/wps.py?service=wps&version=1.0.0&request=DescribeProcess&identifier=ultimatequestionprocess"
-
-.. Cameron Comment: Remove following lines as you have an image
-    <wps:ProcessDescriptions
-    ...
-    </wps:ProcessDescriptions>
+The server returns back a  `DescribeProcess` response document::
 
 .. image:: ../../images/screenshots/1024x768/pywps-describe.png
   :scale: 25%
   :alt: screenshot of describeprocess
   :align: center
 
-Again, you should see WPS DescribeProcess response document. You can also see similar
-response using `browser <http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=DescribeProcess&identifier=ultimatequestionprocess>`_
+Now let us Execute the `ultimatequestionprocess` process on the server. The process is,
+according to it's description, able to *Answer to Life, the Universe and Everything*. No inputs are requied. Using the browser once more::
 
-Now let us Execute `ultimatequestionprocess`, on the server. The process is,
-according to it's description, able to *Answer to Life, the Universe and Everything*. No inputs are requied.::
-
-    $ wget -O - "http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=Execute&identifier=ultimatequestionprocess"
-
-    # wait about 10s
-
-    <wps:ExecuteResponse
-    ...
-         <wps:Data>
-                <wps:LiteralData dataType="integer">42</wps:LiteralData>
-        </wps:Data>  
-    ...
-    </wps:ExecuteResponse>
+    http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=Execute&identifier=ultimatequestionprocess
+    
+As you might know, it takes a while, before the process is calculated. In our
+case, it's about 10s. At the end, we can see the answer to life, universe and
+everyting::
 
 .. image:: ../../images/screenshots/1024x768/pywps-execute.png
   :scale: 25%
   :alt: screenshot of execute response
   :align: center
-
-As you might know, it takes a while, before the process is calculated. In our
-case, it's about 10s. At the end, we can see the answer to life, universe and
-everyting.
-
-.. Cameron Comment: Nice idea for a simple example.
-  Why does it take 10 seconds? Is it just because you have a wait(10) command
-  in the server? To a software evaluator, it doesn't look good to notice that
-  a simple query takes so long. I suggest responding immediately, or explain
-  that the meaning of life takes a while to compute (well actually it just has
-  a 10 second delay pretending to be thinking hard).
-
+  
 .. I think you are underselling the great value of a WPS here. I recommend
   that you select an geographic example which makes use of sample data
   already on OSGeo Live, and which returns a visual map that people can look
   at. Quickstarts are a marketing tool. Lets use it to sell pywps.
 
+.. Luís: All the example processes returning complex outputs also require complex inputs. These are not practical in an example document like this. Also note that response documents are always XML, there is nothing visual about them. There are better examples comming with PyWPS 4.0.
+
+
 Configuration
 =============
 
-You can configure PyWPS instance in the `/etc/pywps/pywps.cfg`
+You can configure a PyWPS instance in the `/etc/pywps/pywps.cfg`
 configuration file. The values are self explaining, but you can always refer to
 `standard documentation <http://geopython.github.io/pywps/doc/build/html/configuration/index.html#configuration-of-pywps-instance>`_
 
@@ -198,16 +166,27 @@ Directory of your process deployment is configured within the
 .. Cameron Comment:
   I assume the pyWPS plugin will have a good GUI. I suggest you should
   create one example which makes use of this plugin. 
-You can also try to install `WPS Plugin <https://plugins.qgis.org/plugins/wps/>`_ to
-`QGIS project <en/quickstart/qgis_quickstart.rst>`_ 
+  
+.. Luís: PyWPS is not a plug-in, nor a GUI. Please take a look at the PyWPS presentation: https://github.com/PyWPS/presentation 
+
+What Next?
+==========
+
+For more information on PyWPS, please consult the `documentation`_ on the PyWPS website.
+
+Things to Try
+=============
+
+If you like PyWPS, you may also try the upcoming `PyWPS 4.0`_ release.
+
+You can also try to install the `WPS Plugin <https://plugins.qgis.org/plugins/wps/>`_ for the
+`QGIS project <en/quickstart/qgis_quickstart.rst>`_. While usefull, this plugin fails to display properly a number of complex outputs.
 
 .. image:: ../../images/screenshots/1024x768/pywps-qgis.png
   :scale: 50%
   :alt: pywps qgis
   :align: center
 
-.. Cameron Comment: As per UDig Quickstart, at end use "Things to Try" and "What Next" headings.
-For more information on PyWPS, please consult the `documentation`_ on the PyWPS website.
 
 .. _`OpenGIS Web Processing Service`: http://www.opengeospatial.org/standards/wps
 .. _`Open Source`: http://www.opensource.org/
@@ -215,3 +194,4 @@ For more information on PyWPS, please consult the `documentation`_ on the PyWPS 
 .. _`lxml`: http://lxml.de/
 .. _`Download`: http://pywps.org/download
 .. _`GitHub`: https://github.com/geopython/PyWPS
+.. _`PyWPS 4.0`: http://pywps.readthedocs.io
