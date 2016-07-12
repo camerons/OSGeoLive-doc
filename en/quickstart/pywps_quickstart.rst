@@ -39,7 +39,7 @@ Tester Application
 ==================
 
 .. Cameron Comment: For all Quickstarts, we focus on "Keep it Simple".
-  So just describe one way to start PyWPS, not 2. Ie, describe how to start
+  So just describe one way to start PyWPS, not 2. I.e., describe how to start
   PyWPS from the launcher, (which you can then go on to say opens up the web
   page at URL)
 
@@ -53,7 +53,7 @@ To test the `GetCapabilities` operation open you favourite internet browser and 
 
     http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=GetCapabilities
 
-The result will be a GetCapabilites response document, like the one in the example below:
+The result will be a `GetCapabilites` response document, like the one in the example below:
 
 .. code-block:: xml
 
@@ -206,7 +206,7 @@ The result will be a GetCapabilites response document, like the one in the examp
 This document describes the functionality provided by this WPS instance. After some metadata about this instance, the response documents lists all the processes available. The `DescribeProcess` operation can be used to know the details of each of these processes 
 
 Lets select a process from the list, for example `ultimatequestionprocess`, and
-display it's description by calling the `DescribeProcess` operation. Again in the browser, navigate to this address::
+display its description by calling the `DescribeProcess` operation. Again in the browser, navigate to this address::
 
     http://localhost/pywps/wps.py?service=wps&version=1.0.0&request=DescribeProcess&identifier=ultimatequestionprocess
 
@@ -233,7 +233,7 @@ The server returns back a  `DescribeProcess` response document:
    </wps:ProcessDescriptions>
 
 Now let us Execute the `ultimatequestionprocess` process on the server. The process is,
-according to it's description, able to *Answer to Life, the Universe and Everything*. No inputs are requied. Using the browser once more::
+according to it's description, able to *Answer to Life, the Universe and Everything*. No inputs are required. Using the browser once more::
 
     http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=Execute&identifier=ultimatequestionprocess
     
@@ -269,7 +269,7 @@ everything:
   already on OSGeo Live, and which returns a visual map that people can look
   at. Quickstarts are a marketing tool. Lets use it to sell pywps.
 
-.. Luís: All the example processes returning complex outputs also require complex inputs. These are not practical in an example document like this. Also note that response documents are always XML, there is nothing visual about them. There are better examples comming with PyWPS 4.0.
+.. Luís: All the example processes returning complex outputs also require complex inputs. These are not practical in an example document like this. Also note that response documents are always XML, there is nothing visual about them. There are better examples coming with PyWPS 4.0.
 
 
 Configuration
@@ -307,7 +307,7 @@ by Python class, with constructor and `execute()` method:
 
 
 
-Directory of your process deployment is configured within the
+The directory where your process are deployed can be configured within the
 `PYWPS_PROCESSES` environment variable.
 
 .. Cameron Comment:
