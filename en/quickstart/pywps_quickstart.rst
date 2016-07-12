@@ -13,11 +13,6 @@
   Please have a look at the Writing Tips in the uDig Quickstart (which is 
   our sample quickstart to follow).
 
-.. Cameron Comment:
-  The screen shots at scale 25% are unreadable. We recommend 50% scale for
-  1024x768 screen shots, although if you keep screen shot small, you might
-  find they are easier to read, (and still fit) if you keep at 70%.
-
 .. image:: ../../images/project_logos/logo-pywps.png
   :scale: 100 %
   :alt: project logo
@@ -58,9 +53,9 @@ To test the `GetCapabilities` operation open you favourite internet browser and 
 
     http://localhost/pywps/wps.py?service=WPS&version=1.0.0&request=GetCapabilities
 
-The result will be a GetCapabilites response document, like the one in the example below::
+The result will be a GetCapabilites response document, like the one in the example below:
 
-.. code:: xml
+.. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
    <wps:Capabilities service="WPS" version="1.0.0" xml:lang="en-CA" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsGetCapabilities_response.xsd" updateSequence="1">
@@ -215,9 +210,9 @@ display it's description by calling the `DescribeProcess` operation. Again in th
 
     http://localhost/pywps/wps.py?service=wps&version=1.0.0&request=DescribeProcess&identifier=ultimatequestionprocess
 
-The server returns back a  `DescribeProcess` response document::
+The server returns back a  `DescribeProcess` response document:
 
-.. code:: xml
+.. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
    <wps:ProcessDescriptions xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA">
@@ -244,9 +239,9 @@ according to it's description, able to *Answer to Life, the Universe and Everyth
     
 As you might know, it takes a while, before the process is calculated. In our
 case, it's about 10s. At the end, we can see the answer to life, universe and
-everything::
+everything:
 
-.. code:: xml
+.. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
    <wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" service="WPS" version="1.0.0" xml:lang="en-CA" serviceInstance="http://localhost/cgi-bin/wps?service=WPS&amp;request=GetCapabilities&amp;version=1.0.0">
@@ -289,17 +284,17 @@ Processes
 
 You can find some example processes in the `/etc/pywps/processes`
 directory. Every process is usually stored in separate file and is represented
-by Python class, with constructor and `execute()` method::
+by Python class, with constructor and `execute()` method:
 
-.. code:: python
-    
+.. code-block:: python
+
     # Example of PyWPS process (shorten)
     from pywps.Process import WPSProcess                               
     class Process(WPSProcess):
      def __init__(self):
          WPSProcess.__init__(self,
-                             identifier="ultimatequestionprocess", #the same as the file name
-                             ....
+                             identifier="ultimatequestionprocess", # the same as the file name
+                             [....]
                                            
      def execute(self):
          import time
@@ -310,12 +305,7 @@ by Python class, with constructor and `execute()` method::
          #The final answer    
          self.Answer.setValue("42")
 
-.. image:: ../../images/screenshots/800x600/pywps-editor.png
-  :scale: 50%
-  :alt: screenshot of the editor
-  :align: center
 
-  Same address in the browser
 
 Directory of your process deployment is configured within the
 `PYWPS_PROCESSES` environment variable.
